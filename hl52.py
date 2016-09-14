@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+
+
 import sys
 import urllib2
 
@@ -27,7 +30,7 @@ def main(argv):
     print('Loading symbols from {}'.format(argv[1]))
     symbols = load_symbols(argv[1])
 
-    print('Creating outfile {}'.format(argv[1]))
+    print('Creating outfile {}'.format(argv[2]))
     # create_outfile_headers(symbols, argv[2])
 
     d = {}
