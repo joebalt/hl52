@@ -45,7 +45,6 @@ def calc_marker_loc(bid, high, low):
     if bid >= low:
         bidAboveLow = bid - low
     else:
-        bidAboveLow = 0
         return 0
 
     # Find out how much each '=' char is for increments
