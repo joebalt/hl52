@@ -3,7 +3,6 @@
 
 import sys
 import urllib2
-import math
 
 
 ###################
@@ -41,8 +40,12 @@ def calc_marker_loc(bid, high, low, markerWidth=10):
         bidAboveLow = bid - low
     else:
         return 0
-    
-    markerLoc = int(round(bidAboveLow * markerWidth / (high - low), 0))
+
+    hlRange = high - low
+    # percent = (bidAboveLow / (high - low)) * 100
+    # print("Percent = {:6.2f}".format(percent))
+
+    markerLoc = int(round(bidAboveLow * markerWidth / hlRange, 0))
 
     # ensure we don't return anything invalid...just in case.
     if markerLoc > markerWidth:
