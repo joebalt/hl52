@@ -34,41 +34,28 @@ def create_outfile(d, outfile):
             f.write(k + ':' + ','.join(v) + '\n')
 
 
-def calc_marker_loc(bid, high, low):
-    """
-        Return a whole number [0-9] representing the position
-        in a 10-char string that is used to mark the scale of
-        the current bid within the 52-week HL range
-    """
+def calc_marker_loc(bid, high, low, markerWidth=10):
     markerLoc = 0
     # find out how far above the low price the current bid price is
     if bid >= low:
         bidAboveLow = bid - low
     else:
         return 0
-
-    # Find out how much each '=' char is for increments
-    hlRange = high - low
-    # how many dollars is represented by one '=' char in marker_template?
-    bidMarkerIncrements = math.trunc(math.ceil(math.trunc(math.ceil(hlRange)) / 10.0))
-
-    # how far above 52w low is the bid in increments?
-    # first, get bidAboveLow in a rounded up whole number
-    bidAboveLow = math.trunc(math.ceil(bidAboveLow))
-    markerLoc = math.trunc(math.ceil(bidAboveLow / bidMarkerIncrements))
+    
+    markerLoc = int(round(bidAboveLow * markerWidth / (high - low), 0))
 
     # ensure we don't return anything invalid...just in case.
-    if markerLoc > 9:
-        markerLoc = 9
+    if markerLoc > markerWidth:
+        markerLoc = markerWidth
 
     return markerLoc
 
 
-def print_52_week_hl_marker(bid, high, low, symbol):
-    markerTemplate = list('==========')
-    markerLoc = calc_marker_loc(bid, high, low)
+def print_52_week_hl_marker(bid, low, high, symbol, length=10):
+    markerTemplate = list('=' * length)
+    markerLoc = calc_marker_loc(bid, high, low, length)
     markerTemplate[markerLoc] = 'X'
-    print('{}@{}: {}[{}]{}'.format(symbol, bid, low, ''.join(markerTemplate), high))
+    print('{:5}@{:6.2f}   : {:6.2f}[{}]{:.2f}'.format(symbol, bid, low, ''.join(markerTemplate), high))
 
 
 def main(argv):
@@ -83,16 +70,24 @@ def main(argv):
     for s in symbols:
         print('fetching {}...'.format(s))
         d[s] = (urllib2.urlopen(yfUrl + s + yfSwitches).read().rstrip()).split(',')
-    print(d)
+    # print(d)
 
     print('Creating outfile {}'.format(argv[2]))
     create_outfile(d, argv[2])
 
-    
-    print_52_week_hl_marker(154.04, 164.95, 116.90, 'IBM')
+    for k, v in sorted(d.iteritems()):
+        if v[0] == 'N/A' and v[1] == 'N/A':
+            print("Cannot process {}, bid and ask prices are N/A".format(k))
+            continue
+        # if bid (v[1]) comes back as 'N/A', set it to ask (v[0])
+        if v[1] == 'N/A' and v[0] != 'N/A':
+            v[1] = v[0]
+
+        print_52_week_hl_marker(float(v[1]), float(v[2]), float(v[3]), k, 50)
 
     print('End run.')
+    return 0
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    sys.exit(main(sys.argv))
