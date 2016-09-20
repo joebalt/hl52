@@ -7,7 +7,7 @@ import urllib2
 
 ###################
 # GLOBALS
-yfUrl = 'http://finance.yahoo.com/d/quotes.csv?s='
+yfUrl = 'http://download.finance.yahoo.com/d/quotes.csv?s='
 # from http://www.financialwisdomforum.org/gummy-stuff/Yahoo-data.htm
 #     (a)sk, (b)id, j (52-week low), k (52-week high)
 yfSwitches = '&f=abjk'
