@@ -48,8 +48,8 @@ def calc_marker_loc(bid, high, low, markerWidth=10):
     markerLoc = int(round(bidAboveLow * markerWidth / hlRange, 0))
 
     # ensure we don't return anything invalid...just in case.
-    if markerLoc > markerWidth:
-        markerLoc = markerWidth
+    if markerLoc > markerWidth - 1:
+        markerLoc = markerWidth - 1
 
     return markerLoc
 
