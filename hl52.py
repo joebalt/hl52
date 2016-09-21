@@ -52,7 +52,7 @@ def print_52_week_hl_marker(bid, low, high, symbol, length=10):
     markerTemplate = list('=' * length)
     markerLoc = calc_marker_loc(bid, low, high, length)
     markerTemplate[markerLoc] = 'X'
-    print('{:5}@{:6.2f}   : {:6.2f}[{}]{:.2f}'.format(symbol, bid, low, ''.join(markerTemplate), high))
+    print('{:5}@{:6.2f}   : {:6.2f}[{}]{:6.2f}'.format(symbol, bid, low, ''.join(markerTemplate), high))
 
 
 def main(argv):
