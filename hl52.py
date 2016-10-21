@@ -76,7 +76,7 @@ def main(argv):
     #    v[3]  - 52-week high
     for k, v in sorted(d.iteritems()):
         if v[0] == 'N/A' and v[1] == 'N/A':
-            print("Cannot process {}, bid and ask prices are N/A".format(k))
+            print("XXXXXXXXXX  Cannot process {}, bid and ask prices are N/A".format(k))
             continue
         # use ask (v[0]) as bid (v[1]) if bid is 'N/A'
         if v[1] == 'N/A':
