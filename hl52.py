@@ -55,6 +55,9 @@ def print_52_week_hl_marker(bid, low, high, symbol, length=10):
     print('{:5}@{:6.2f}   : {:6.2f}[{}]{:6.2f}'.format(symbol, bid, low, ''.join(markerTemplate), high))
 
 
+def print_pct_off_52wh(bid, high):
+    print('  {:6.2f}%'.format((bid / high) * 100.0))
+
 def main(argv):
     print('Begin run...')
 
@@ -83,6 +86,7 @@ def main(argv):
             v[1] = v[0]
 
         print_52_week_hl_marker(float(v[1]), float(v[2]), float(v[3]), k, 50)
+        print_pct_off_52wh(float(v[1]), float(v[3]))
 
     print('End run.')
     return 0
