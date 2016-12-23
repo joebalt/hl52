@@ -1,3 +1,6 @@
+# Pre-reqs
+Run ./create-hl52-input.sh to create requisite input file for usage.
+
 # Synopsis
 Attempt to analyze stocks based on their current state with respect to their 52-week high and low values.
 
