@@ -20,23 +20,6 @@ def load_symbols(filename):
     return symbol_list
 
 
-# This method is not used, but I left it in here for future
-# reference. I thought it was a pretty cool way to create
-# a list of comma separate headers minus the trailing comma.
-# I am easily impressed in python...
-def create_outfile_headers(symbols_list, outfile):
-    with open(outfile, 'wb') as f:
-        for s in symbols_list[:-1]:
-            f.write(s + ',')
-        f.write(symbols_list[-1])
-
-
-def create_outfile(d, outfile):
-    with open(outfile, 'wb') as f:
-        for k, v in d.iteritems():
-            f.write(k + ':' + ','.join(v) + '\n')
-
-
 def calc_marker_loc(bid, low, high, markerWidth=10):
     markerLoc = 0
     # find out how far above the low price the current bid price is
@@ -60,7 +43,7 @@ def print_52_week_hl_marker(bid, low, high, symbol, length=10):
     # percentage printed at the end of the line here
     # The way I did this feels very 'brute force'...
     if (bid / low) < 1.0:
-        print('{:5}@{:6.2f}   : {:6.2f}[{}]{:6.2f}  {:6.2f}%'
+        print('{:5}@{:6.2f} : {:6.2f}[{}]{:6.2f}  {:6.2f}%'
                 .format(symbol,
                     bid,
                     low,
@@ -85,10 +68,6 @@ def main(argv):
     for s in symbols:
         print('fetching {}...'.format(s))
         d[s] = (urllib2.urlopen(yfUrl + s + yfSwitches).read().rstrip()).split(',')
-    print(d)
-
-    print('Creating outfile {}'.format(argv[2]))
-    create_outfile(d, argv[2])
 
     # v is a list of ticker information:
     #    v[0]  - ask
