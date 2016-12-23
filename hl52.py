@@ -20,6 +20,10 @@ def load_symbols(filename):
     return symbol_list
 
 
+# This method is not used, but I left it in here for future
+# reference. I thought it was a pretty cool way to create
+# a list of comma separate headers minus the trailing comma.
+# I am easily impressed in python...
 def create_outfile_headers(symbols_list, outfile):
     with open(outfile, 'wb') as f:
         for s in symbols_list[:-1]:
@@ -52,6 +56,9 @@ def print_52_week_hl_marker(bid, low, high, symbol, length=10):
     markerTemplate = list('=' * length)
     markerLoc = calc_marker_loc(bid, low, high, length)
     markerTemplate[markerLoc] = 'X'
+    # If bid has crossed below 52-week low, I want the
+    # percentage printed at the end of the line here
+    # The way I did this feels very 'brute force'...
     if (bid / low) < 1.0:
         print('{:5}@{:6.2f}   : {:6.2f}[{}]{:6.2f}  {:6.2f}%'
                 .format(symbol,
