@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 
+import argparse
 import sys
 import urllib2
 
@@ -12,6 +13,13 @@ yfUrl = 'http://download.finance.yahoo.com/d/quotes.csv?s='
 #     (a)sk, (b)id, j (52-week low), k (52-week high)
 yfSwitches = '&f=abjk'
 ###################
+
+
+def init_argparse():
+    parser = argparse.ArgumentParser(description="hl52")
+    parser.add_argument("--symfile", dest="symFile",
+                        help="Path to the symbols file to analyze.")
+    return parser.parse_args()
 
 
 def load_symbols(filename):
@@ -62,8 +70,9 @@ def print_52_week_hl_marker(bid, low, high, symbol, length=10):
 def main(argv):
     print('Begin run...')
 
-    print('Loading symbols from {}'.format(argv[1]))
-    symbols = load_symbols(argv[1])
+    args = init_argparse()
+    print('Loading symbols from {}'.format(args.symFile))
+    symbols = load_symbols(args.symFile)
     d = {}
     for s in symbols:
         print('fetching {}...'.format(s))
