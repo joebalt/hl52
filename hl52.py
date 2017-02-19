@@ -3,16 +3,7 @@
 
 import argparse
 import sys
-import urllib2
-
-
-###################
-# GLOBALS
-yfUrl = 'http://download.finance.yahoo.com/d/quotes.csv?s='
-# from http://www.financialwisdomforum.org/gummy-stuff/Yahoo-data.htm
-#     (a)sk, (b)id, j (52-week low), k (52-week high)
-yfSwitches = '&f=abjk'
-###################
+from yahoo_finance import Share
 
 
 def init_argparse():
@@ -76,22 +67,19 @@ def main(argv):
     d = {}
     for s in symbols:
         print('fetching {}...'.format(s))
-        d[s] = (urllib2.urlopen(yfUrl + s + yfSwitches).read().rstrip()).split(',')
+        share = Share(s)
+        bid = float(share.get_price())
+        year_low = float(share.get_year_low())
+        year_high = float(share.get_year_high())
+
+        d[s] = [bid, year_low, year_high]
 
     # v is a list of ticker information:
-    #    v[0]  - ask
-    #    v[1]  - bid
-    #    v[2]  - 52-week low
-    #    v[3]  - 52-week high
+    #    v[0]  - bid
+    #    v[1]  - 52-week low
+    #    v[2]  - 52-week high
     for k, v in sorted(d.iteritems()):
-        if v[0] == 'N/A' and v[1] == 'N/A':
-            print("XXXXXXXXXX  Cannot process {}, bid and ask prices are N/A".format(k))
-            continue
-        # use ask (v[0]) as bid (v[1]) if bid is 'N/A'
-        if v[1] == 'N/A':
-            v[1] = v[0]
-
-        print_52_week_hl_marker(float(v[1]), float(v[2]), float(v[3]), k, 50)
+        print_52_week_hl_marker(float(v[0]), float(v[1]), float(v[2]), k, 50)
 
     print('End run.')
     return 0
