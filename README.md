@@ -1,4 +1,8 @@
 # Pre-reqs
+Uses: https://pypi.python.org/pypi/yahoo-finance/1.1.4
+
+pip install yahoo-finance
+
 Run ./create-hl52-input.sh to create requisite input file for usage.
 
 You can modify getWatchListDetail.csv to include additional symbols for your own use. Just copy an existing line and change the symbol only in the new line - the other data is not used.
