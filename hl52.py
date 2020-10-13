@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 
 import argparse
@@ -43,19 +43,19 @@ def print_52_week_hl_marker(bid, low, high, symbol, length=10):
     # The way I did this feels very 'brute force'...
     if (bid / low) < 1.0:
         print('{:5}@{:6.2f} : {:6.2f}[{}]{:6.2f}  {:6.2f}%'
-                .format(symbol,
-                    bid,
-                    low,
-                    ''.join(markerTemplate),
-                    high,
-                    (bid / low) * 100.0))
+              .format(symbol,
+                      bid,
+                      low,
+                      ''.join(markerTemplate),
+                      high,
+                      (bid / low) * 100.0))
     else:
         print('{:5}@{:6.2f}   : {:6.2f}[{}]{:6.2f}'
-                .format(symbol,
-                    bid,
-                    low,
-                    ''.join(markerTemplate),
-                    high))
+              .format(symbol,
+                      bid,
+                      low,
+                      ''.join(markerTemplate),
+                      high))
 
 
 def main(argv):
